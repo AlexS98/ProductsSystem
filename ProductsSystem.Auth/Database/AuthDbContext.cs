@@ -26,7 +26,7 @@ namespace ProductsSystem.Auth.Database
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<User>().HasData(new User { Username = "Default", PasswordHash = "None", Email = "default.user@gmail.com" });
+            modelBuilder.Entity<User>().HasData(new User { Id = Guid.NewGuid(), Username = "Default", PasswordHash = "None", Email = "default.user@gmail.com" });
             base.OnModelCreating(modelBuilder);
         }
     }

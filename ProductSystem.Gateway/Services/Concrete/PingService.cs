@@ -20,8 +20,8 @@ namespace ProductSystem.Gateway.Services.Concrete
             {
                 var authServiceResponse = await _client.GetAsync($"http://{serviceName}:{port}/ping");
                 var authServiceMessage = authServiceResponse.IsSuccessStatusCode
-                    ? $"Auth service is ok! Message: {authServiceResponse.Content.ReadAsStringAsync().GetAwaiter().GetResult()}"
-                    : $"Auth service check fails! Code: {authServiceResponse.StatusCode}";
+                    ? $"Service \"{serviceName}\" is ok! Message: {authServiceResponse.Content.ReadAsStringAsync().GetAwaiter().GetResult()}"
+                    : $"Service \"{serviceName}\" check fails! Code: {authServiceResponse.StatusCode}. Path: http://{serviceName}:{port}/ping";
                 return authServiceMessage;
             }
             catch (Exception ex)
