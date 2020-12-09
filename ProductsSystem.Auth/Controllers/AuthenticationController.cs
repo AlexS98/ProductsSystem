@@ -1,4 +1,18 @@
-$HEADER$namespace $NAMESPACE$
+using Microsoft.AspNetCore.Mvc;
+using ProductsSystem.Auth.RequestModels;
+
+namespace ProductsSystem.Auth.Controllers
 {
-  public class $CLASS$ {$END$}
+    [ApiController]
+    [Route("[controller]")]
+    public class AuthenticationController : ControllerBase
+    {
+        
+        
+        [HttpPost("sign-in")]
+        public ActionResult SignIn([FromBody] SignInUser user)
+        {
+            return BadRequest();
+        }
+    }
 }

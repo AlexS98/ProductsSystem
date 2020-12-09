@@ -10,6 +10,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using ProductSystem.Gateway.Middlewares;
+using ProductSystem.Gateway.Services.Concrete;
+using ProductSystem.Gateway.Services.Interfaces;
 
 namespace ProductSystem.Gateway
 {
@@ -25,6 +28,8 @@ namespace ProductSystem.Gateway
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddScoped<IPingService, PingService>();
+
             services.AddControllers();
         }
 
@@ -36,7 +41,7 @@ namespace ProductSystem.Gateway
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseHttpsRedirection();
+            app.UseApiResponse();
 
             app.UseRouting();
 

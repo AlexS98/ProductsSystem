@@ -2,6 +2,10 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProductsSystem.Auth", "ProductsSystem.Auth\ProductsSystem.Auth.csproj", "{28FBB7F5-0B6A-4D8E-9D77-8E2125B9671E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProductSystem.Gateway", "ProductSystem.Gateway\ProductSystem.Gateway.csproj", "{74FDEFB8-548E-4D2D-9DDE-DBDCB5A26729}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProductSystem.Management", "ProductSystem.Management\ProductSystem.Management.csproj", "{C2403C89-EFE4-4CD3-A48E-5011626F7A29}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +16,13 @@ Global
 		{28FBB7F5-0B6A-4D8E-9D77-8E2125B9671E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{28FBB7F5-0B6A-4D8E-9D77-8E2125B9671E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{28FBB7F5-0B6A-4D8E-9D77-8E2125B9671E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{74FDEFB8-548E-4D2D-9DDE-DBDCB5A26729}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{74FDEFB8-548E-4D2D-9DDE-DBDCB5A26729}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{74FDEFB8-548E-4D2D-9DDE-DBDCB5A26729}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{74FDEFB8-548E-4D2D-9DDE-DBDCB5A26729}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C2403C89-EFE4-4CD3-A48E-5011626F7A29}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C2403C89-EFE4-4CD3-A48E-5011626F7A29}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C2403C89-EFE4-4CD3-A48E-5011626F7A29}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C2403C89-EFE4-4CD3-A48E-5011626F7A29}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

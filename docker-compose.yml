@@ -2,16 +2,28 @@ version: "3.8"
 services:
   auth:
     build: ./ProductsSystem.Auth
-    ports:
-      - "8000:5001"
+    ports: 
+      - "8000:5001" #remove
+    container_name: authservice
+    networks: 
+      - api
     depends_on:
       - db
   db:
+    networks: 
+      - api
     image: "mcr.microsoft.com/mssql/server"
     environment:
       SA_PASSWORD: "SqlPassword123~"
       ACCEPT_EULA: "Y"
   gateway:
     build: ./ProductSystem.Gateway
+    container_name: gateway
+    networks: 
+      - api
     ports:
       - "8001:5002"
+
+networks:    
+  api:
+    driver: bridge

@@ -1,13 +1,19 @@
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using ProductsSystem.Auth.Database;
 
 namespace ProductsSystem.Auth.Controllers
 {
-    public class Ping : Controller
+    [ApiController]
+    [Route("[controller]")]
+    public class PingController : ControllerBase
     {
-        // GET
-        public IActionResult Index()
+        [HttpGet]
+        public IActionResult Ping()
         {
-            return View();
+            // var users = await _context.Users.ToListAsync();
+            return Ok("Ping successful!");
         }
     }
 }
