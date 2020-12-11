@@ -24,6 +24,7 @@ namespace ProductSystem.Gateway.Controllers
             var response = new List<string>() { "Gateway is ok!" };
             
             response.Add(await _pingService.PingDockerServiceAsync("authservice", 5001));
+            response.Add(await _pingService.PingDockerServiceAsync("managservice", 5003));
 
             return response;
         }

@@ -7,8 +7,6 @@ namespace ProductsSystem.Auth.Controllers
     [Route("[controller]")]
     public class AuthenticationController : ControllerBase
     {
-        
-        
         [HttpPost("sign-in")]
         public ActionResult SignIn([FromBody] SignInUser user)
         {

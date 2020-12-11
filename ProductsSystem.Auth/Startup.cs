@@ -16,6 +16,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using ProductsSystem.Auth.Database;
+using ProductsSystem.Auth.Services.Abstract;
+using ProductsSystem.Auth.Services;
 
 namespace ProductsSystem.Auth
 {
@@ -54,6 +56,9 @@ namespace ProductsSystem.Auth
                     };
                 });
             
+            services.AddScoped<IJwtService, JwtService>();
+
+
             services.AddCors(
                 options => options.AddPolicy("AllowAllPolicy", builder =>
                     builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()

@@ -8,8 +8,8 @@ services:
     networks: 
       - api
     depends_on:
-      - db
-  db:
+      - authdb
+  authdb:
     networks: 
       - api
     image: "mcr.microsoft.com/mssql/server"
@@ -23,7 +23,22 @@ services:
       - api
     ports:
       - "8001:5002"
-
+  manag:
+    build: ./ProductSystem.Management
+    ports: 
+      - "8002:5003" #remove
+    container_name: managservice
+    networks: 
+      - api
+    depends_on:
+      - managdb
+  managdb:
+    networks: 
+      - api
+    image: "mcr.microsoft.com/mssql/server"
+    environment:
+      SA_PASSWORD: "SqlPassword123~"
+      ACCEPT_EULA: "Y"
 networks:    
   api:
     driver: bridge
