@@ -11,9 +11,9 @@ namespace ProductSystem.Gateway.Controllers
     [Route("[controller]")]
     public class PingController : ControllerBase
     {
-        private readonly IPingService _pingService;
+        private readonly IRequestService _pingService;
 
-        public PingController(IPingService pingService)
+        public PingController(IRequestService pingService)
         {
             _pingService = pingService;
         }

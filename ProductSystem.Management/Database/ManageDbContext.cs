@@ -31,6 +31,7 @@ namespace ProductSystem.Management.Database
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            
             base.OnModelCreating(modelBuilder);
         }
 

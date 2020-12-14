@@ -65,7 +65,20 @@ namespace ProductSystem.Gateway.Middlewares
             context.Response.ContentType = "application/json; charset=utf-8";
             memoryStream.Seek(0, SeekOrigin.Begin);
             var readToEnd = new StreamReader(memoryStream).ReadToEnd();
-            return JsonConvert.DeserializeObject(readToEnd);
+            object? deserialized = null;
+            try
+            {
+                deserialized = JsonConvert.DeserializeObject(readToEnd);
+            }
+            catch (Exception)
+            {
+                deserialized = new
+                {
+                    serializationSkipped = true,
+                    content = readToEnd
+                };
+            }
+            return deserialized;
         }
     }
 
