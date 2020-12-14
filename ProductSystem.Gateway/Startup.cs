@@ -45,8 +45,6 @@ namespace ProductSystem.Gateway
 
             app.UseRouting();
 
-            app.UseAuthorization();
-
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
         }
     }

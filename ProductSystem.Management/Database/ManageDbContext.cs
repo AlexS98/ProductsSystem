@@ -6,24 +6,21 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using ProductsSystem.Auth.Models;
+using ProductSystem.Management.Models;
 
-namespace ProductsSystem.Auth.Database
+namespace ProductSystem.Management.Database
 {
-    public class AuthDbContext : DbContext
+    public class ManageDbContext : DbContext
     {
-        public DbSet<User> Users { get; set; }
-        public DbSet<LoginHistory> LoginHistories { get; set; }
+        public DbSet<Product> Products { get; set; }
+        public DbSet<Batch> Batches { get; set; }
+        public DbSet<Warehouse> Warehouses { get; set; }
+        public DbSet<WarehouseProduct> WarehouseProducts { get; set; }
+        public DbSet<SellPoint> SellPoints { get; set; }
+        public DbSet<Transfer> Transfers { get; set; }
+        
 
-        public override DatabaseFacade Database => base.Database;
-
-        public override ChangeTracker ChangeTracker => base.ChangeTracker;
-
-        public override IModel Model => base.Model;
-
-        public override DbContextId ContextId => base.ContextId;
-
-        public AuthDbContext(DbContextOptions options) : base(options)
+        public ManageDbContext(DbContextOptions options) : base(options)
         {
         }
 
@@ -34,7 +31,6 @@ namespace ProductsSystem.Auth.Database
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<User>().HasData(new User { Id = Guid.NewGuid(), Username = "Default", PasswordHash = "None", Email = "default.user@gmail.com" });
             base.OnModelCreating(modelBuilder);
         }
 

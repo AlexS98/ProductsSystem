@@ -1,8 +1,8 @@
 using System;
 
-namespace ProductsSystem.Auth.Models
+namespace ProductSystem.Management.Models
 {
-    public abstract class CommonModel
+    public class CommonModel
     {
         public Guid Id { get; set; }
         public DateTimeOffset? CreateDate { get; set; }

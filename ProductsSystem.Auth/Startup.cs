@@ -18,13 +18,14 @@ using Microsoft.IdentityModel.Tokens;
 using ProductsSystem.Auth.Database;
 using ProductsSystem.Auth.Services.Abstract;
 using ProductsSystem.Auth.Services;
+using ProductsSystem.Auth.Database.Repository;
+using System.Text;
 
 namespace ProductsSystem.Auth
 {
     public class Startup
     {
-        private const string JwtSigningKey = "ProductsSystemKey";
-        
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -35,28 +36,32 @@ namespace ProductsSystem.Auth
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            var securityKey = JwtSigningKey.Select(x => (byte)x).ToArray();
-
             services.AddDbContext<AuthDbContext>(options =>
             {
                 options.UseSqlServer(Configuration.GetConnectionString("AuthDbConnectionString"));
             });
-            
+
             services
                 .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(x => {
-                    x.RequireHttpsMetadata = false;
-                    x.SaveToken = true;
-                    x.TokenValidationParameters = new TokenValidationParameters
+                .AddJwtBearer(options =>
+                {
+                    options.RequireHttpsMetadata = false;
+                    options.TokenValidationParameters = new TokenValidationParameters
                     {
+                        ClockSkew = TimeSpan.Zero,
+                        ValidateIssuer = true,
+                        ValidIssuer = Configuration["Auth:ISSUER"],
+                        ValidateAudience = true,
+                        ValidAudience = Configuration["Auth:AUDIENCE"],
+                        ValidateLifetime = true,
+                        RequireExpirationTime = true,
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Auth:KEY"])),
                         ValidateIssuerSigningKey = true,
-                        IssuerSigningKey = new SymmetricSecurityKey(securityKey),
-                        ValidateIssuer = false,
-                        ValidateAudience = false
                     };
                 });
-            
+
             services.AddScoped<IJwtService, JwtService>();
+            services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 
 
             services.AddCors(
@@ -64,8 +69,11 @@ namespace ProductsSystem.Auth
                     builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()
                 )
             );
-            
-            services.AddControllers();
+
+            services.AddControllers(options =>
+                {
+                    options.AllowEmptyInputInBodyModelBinding = true;
+                });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -75,7 +83,7 @@ namespace ProductsSystem.Auth
             {
                 app.UseDeveloperExceptionPage();
             }
-            
+
             using (context)
             {
                 context.Database.Migrate();
@@ -86,7 +94,8 @@ namespace ProductsSystem.Auth
             app.UseRouting();
 
             app.UseCors("AllowAllPolicy");
-            
+
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
