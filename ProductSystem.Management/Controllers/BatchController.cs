@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using ProductSystem.Management.Database.Repository;
 using ProductSystem.Management.Dto;
 using ProductSystem.Management.Models;
+using ProductSystem.Management.Services;
 
 namespace ProductSystem.Management.Controllers
 {
@@ -16,12 +18,14 @@ namespace ProductSystem.Management.Controllers
         private readonly IRepository<Batch> _repo;
         private readonly IRepository<WarehouseProduct> _prodWarRepo;
         private readonly IRepository<Product> _prodRepo;
+        private readonly IMessageService _message;
 
-        public BatchController(IRepository<Batch> repo, IRepository<WarehouseProduct> prodWarRepo, IRepository<Product> prodRepo)
+        public BatchController(IRepository<Batch> repo, IRepository<WarehouseProduct> prodWarRepo, IRepository<Product> prodRepo, IMessageService message)
         {
             _repo = repo;
             _prodWarRepo = prodWarRepo;
             _prodRepo = prodRepo;
+            _message = message;
         }
 
         [HttpGet("id")]
@@ -44,7 +48,10 @@ namespace ProductSystem.Management.Controllers
                 WarehouseId = dto.WarehouseId,
             };
             var result = _repo.Save(batchDb);
-            return Ok(_repo.DataSet.Include(w => w.Warehouse).Include(p => p.Product).FirstOrDefault(x => x.Id == Guid.Parse(result.Message)));
+            var newBatch = _repo.DataSet.Include(w => w.Warehouse).Include(p => p.Product).FirstOrDefault(x => x.Id == Guid.Parse(result.Message));
+            _message.Enqueue(JsonConvert.SerializeObject(newBatch));
+
+            return Ok(newBatch);
         }
     }
 }

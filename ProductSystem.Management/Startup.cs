@@ -13,6 +13,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using ProductSystem.Management.Database;
 using ProductSystem.Management.Database.Repository;
+using ProductSystem.Management.Services;
 
 namespace ProductSystem.Management
 {
@@ -32,7 +33,8 @@ namespace ProductSystem.Management
             {
                 options.UseSqlServer(Configuration.GetConnectionString("ManageDbConnectionString"));
             });
-            
+
+            services.AddScoped<IMessageService, MessageService>();
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 
 

@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using ProductSystem.Management.Database.Repository;
 using ProductSystem.Management.Dto;
 using ProductSystem.Management.Models;
+using ProductSystem.Management.Services;
 
 namespace ProductSystem.Management.Controllers
 {
@@ -15,11 +17,13 @@ namespace ProductSystem.Management.Controllers
     {
         private readonly IRepository<Transfer> _repo;
         private readonly IRepository<Product> _prodRepo;
+        private readonly IMessageService _message;
 
-        public TransferController(IRepository<Transfer> repo, IRepository<Product> prodRepo)
+        public TransferController(IRepository<Transfer> repo, IRepository<Product> prodRepo, IMessageService message)
         {
             _repo = repo;
             _prodRepo = prodRepo;
+            _message = message;
         }
 
         [HttpGet("id")]
@@ -38,7 +42,11 @@ namespace ProductSystem.Management.Controllers
                 BatchId = dto.BatchId
             };
             var result = _repo.Save(batchDb);
-            return Ok(_repo.DataSet.Include(w => w.ToWarehouse).Include(p => p.ToSellPoint).FirstOrDefault(x => x.Id == Guid.Parse(result.Message)));
+
+            var newTransfer = _repo.DataSet.Include(w => w.ToWarehouse).Include(p => p.ToSellPoint).FirstOrDefault(x => x.Id == Guid.Parse(result.Message));
+            _message.Enqueue(JsonConvert.SerializeObject(newTransfer));
+
+            return Ok(newTransfer);
         }
     }
 }

@@ -41,6 +41,8 @@ services:
   rabbitmq: # login guest:guest
     image: rabbitmq:3-management
     hostname: "rabbitmq"
+    networks: 
+      - api
     labels:
       NAME: "rabbitmq"
     ports:
