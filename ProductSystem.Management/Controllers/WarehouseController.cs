@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
@@ -23,6 +24,12 @@ namespace ProductSystem.Management.Controllers
             _prodRepo = prodRepo;
         }
 
+        [HttpGet("id")]
+        public ActionResult GetWarehouse([FromRoute] Guid id)
+        {
+            return Ok(_repo.DataSet.Include(w => w.AvailableProducts).ThenInclude(w => w.Product).FirstOrDefault(x => x.Id == id));
+        }
+
         [HttpPost("add")]
         public ActionResult CreateWarehouse([FromBody] WarehouseDto dto)
         {
@@ -35,7 +42,7 @@ namespace ProductSystem.Management.Controllers
                 FunctioningCapacity = dto.FunctioningCapacity,
                 AvailableProducts = new List<WarehouseProduct>()
             };
-            _repo.Save(warehouseDb);
+            var result = _repo.Save(warehouseDb);
             var existedproducts = dto.ProductsIds
                 .Select(x => products.FirstOrDefault(y => y.Id == x))
                 .Where(x => x != null);
@@ -48,7 +55,7 @@ namespace ProductSystem.Management.Controllers
                 };
                 _prodWarRepo.Save(newProd);
             }
-            return Ok(_repo.DataSet.Include(w => w.AvailableProducts).Where(x => x.Name == dto.Name));
+            return Ok(_repo.DataSet.Include(w => w.AvailableProducts).Where(x => x.Id == Guid.Parse(result.Message)));
         }
     }
 }

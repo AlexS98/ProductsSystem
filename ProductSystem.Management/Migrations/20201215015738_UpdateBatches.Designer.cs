@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ProductSystem.Management.Database;
 
 namespace ProductSystem.Management.Migrations
 {
     [DbContext(typeof(ManageDbContext))]
-    partial class ManageDbContextModelSnapshot : ModelSnapshot
+    [Migration("20201215015738_UpdateBatches")]
+    partial class UpdateBatches
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

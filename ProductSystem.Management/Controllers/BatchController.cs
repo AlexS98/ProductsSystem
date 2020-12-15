@@ -24,6 +24,12 @@ namespace ProductSystem.Management.Controllers
             _prodRepo = prodRepo;
         }
 
+        [HttpGet("id")]
+        public ActionResult GetBatch([FromRoute] Guid id)
+        {
+            return Ok(_repo.DataSet.Include(x => x.Product).Include(x => x.Warehouse).FirstOrDefault(x => x.Id == id));
+        }
+
         [HttpPost("add")]
         public ActionResult CreateBatch([FromBody] BatchDto dto)
         {
