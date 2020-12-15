@@ -2,8 +2,6 @@ version: "3.8"
 services:
   auth:
     build: ./ProductsSystem.Auth
-    ports: 
-      - "8000:5001" #remove
     container_name: authservice
     networks: 
       - api
@@ -32,6 +30,7 @@ services:
       - api
     depends_on:
       - managdb
+      - rabbitmq
   managdb:
     networks: 
       - api
@@ -39,6 +38,18 @@ services:
     environment:
       SA_PASSWORD: "SqlPassword123~"
       ACCEPT_EULA: "Y"
+  rabbitmq: # login guest:guest
+    image: rabbitmq:3-management
+    hostname: "rabbitmq"
+    labels:
+      NAME: "rabbitmq"
+    ports:
+    - "4369:4369"
+    - "5671:5671"
+    - "5672:5672"
+    - "25672:25672"
+    - "15671:15671"
+    - "15672:15672"
 networks:    
   api:
     driver: bridge

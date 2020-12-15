@@ -1,12 +1,14 @@
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using Microsoft.EntityFrameworkCore;
 using ProductSystem.Management.Models;
 
 namespace ProductSystem.Management.Database.Repository
 {
     public interface IRepository<T> where T : CommonModel
     {
+        public DbSet<T> DataSet { get; }
         RepositoryOperationResult<T> GetById(Guid id);
         RepositoryOperationResult<List<T>> GetByExpression(Expression<Func<T, bool>> predicate);
         RepositoryOperationResult<T> GetOneByExpression(Expression<Func<T, bool>> predicate);

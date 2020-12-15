@@ -12,6 +12,8 @@ namespace ProductSystem.Management.Database.Repository
         private readonly ManageDbContext _context;
         private readonly DbSet<T> _set;
 
+        public DbSet<T> DataSet { get => _set; }
+
         public Repository(ManageDbContext context)
         {
             this._set = context.Set<T>();
@@ -91,7 +93,7 @@ namespace ProductSystem.Management.Database.Repository
 
             _set.Add(entity);
             _context.SaveChanges();
-            return new RepositoryOperationResult();
+            return new RepositoryOperationResult(true, $"{entity.Id}");
         }
 
         public RepositoryOperationResult Update(Guid id, T updatedEntity)

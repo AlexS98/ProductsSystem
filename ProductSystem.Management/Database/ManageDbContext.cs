@@ -4,8 +4,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
-using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Metadata;
 using ProductSystem.Management.Models;
 
 namespace ProductSystem.Management.Database
@@ -18,7 +16,7 @@ namespace ProductSystem.Management.Database
         public DbSet<WarehouseProduct> WarehouseProducts { get; set; }
         public DbSet<SellPoint> SellPoints { get; set; }
         public DbSet<Transfer> Transfers { get; set; }
-        
+
 
         public ManageDbContext(DbContextOptions options) : base(options)
         {
@@ -31,7 +29,127 @@ namespace ProductSystem.Management.Database
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            
+            var products = new[] {
+                new Product
+                {
+                    Id = Guid.Parse("9C126DF2-63C4-4005-8190-F2B9B5E762B0"),
+                    Name = "Stone",
+                    Code = "stn"
+                },
+                new Product
+                {
+                    Id = Guid.Parse("3AE4C2C5-C821-4BAA-A3AD-673AEF94A946"),
+                    Name = "Wood",
+                    Code = "wd"
+                },
+                new Product
+                {
+                    Id = Guid.Parse("DD01763E-6EBB-49B9-BD23-3FB5DD34A9AE"),
+                    Name = "Steel",
+                    Code = "stl"
+                },
+                new Product
+                {
+                    Id = Guid.Parse("FA031419-66B3-41F9-9EAA-8CCEDA79E890"),
+                    Name = "Gold",
+                    Code = "gd"
+                },
+                new Product
+                {
+                    Id = Guid.Parse("A609390C-B3FE-4989-B78C-E8A38562B7EC"),
+                    Name = "Coal",
+                    Code = "cl"
+                }
+            };
+
+            modelBuilder
+                .Entity<Product>()
+                .HasData(products);
+
+            var warehouses = new[] {
+                new Warehouse
+                {
+                    Id = Guid.Parse("1E498CDC-803B-4B74-9E9A-00EC6C2E3F24"),
+                    Name = "Warhouse 1",
+                    Address = "Kyiv, Ukraine",
+                    Capacity = 250,
+                    FunctioningCapacity = 0
+                },
+                new Warehouse
+                {
+                    Id = Guid.Parse("8C8D3D9E-B532-4DAA-B95D-9BF8FDB56092"),
+                    Name = "Warhouse 2",
+                    Address = "Lviv, Ukraine",
+                    Capacity = 180,
+                    FunctioningCapacity = 0
+                },
+                new Warehouse
+                {
+                    Id = Guid.Parse("6CC495EA-E737-4F69-B630-277C56F126FA"),
+                    Name = "Warhouse 3",
+                    Address = "Kharkiv, Ukraine",
+                    Capacity = 210,
+                    FunctioningCapacity = 0
+                }
+            };
+
+            modelBuilder
+                .Entity<Warehouse>()
+                .HasData(warehouses);
+
+            var warehouseProd = new[] {
+                new WarehouseProduct {
+                    Id = Guid.NewGuid(),
+                    ProductId = products[0].Id,
+                    WarehouseId = warehouses[0].Id
+                },
+                new WarehouseProduct {
+                    Id = Guid.NewGuid(),
+                    ProductId= products[1].Id,
+                    WarehouseId = warehouses[0].Id
+                },
+                new WarehouseProduct {
+                    Id = Guid.NewGuid(),
+                    ProductId = products[2].Id,
+                    WarehouseId = warehouses[0].Id
+                },
+                new WarehouseProduct {
+                    Id = Guid.NewGuid(),
+                    ProductId = products[3].Id,
+                    WarehouseId = warehouses[0].Id
+                },
+                new WarehouseProduct {
+                    Id = Guid.NewGuid(),
+                    ProductId = products[1].Id,
+                    WarehouseId = warehouses[1].Id
+                },
+                new WarehouseProduct {
+                    Id = Guid.NewGuid(),
+                    ProductId = products[2].Id,
+                    WarehouseId = warehouses[1].Id
+                },
+                new WarehouseProduct {
+                    Id = Guid.NewGuid(),
+                    ProductId = products[4].Id,
+                    WarehouseId= warehouses[1].Id
+                },
+                new WarehouseProduct {
+                    Id = Guid.NewGuid(),
+                    ProductId = products[3].Id,
+                    WarehouseId = warehouses[2].Id
+                },
+                new WarehouseProduct {
+                    Id = Guid.NewGuid(),
+                    ProductId = products[0].Id,
+                    WarehouseId = warehouses[2].Id
+                }
+            };
+
+            modelBuilder
+                .Entity<WarehouseProduct>()
+                .HasData(warehouseProd);
+
+
             base.OnModelCreating(modelBuilder);
         }
 
