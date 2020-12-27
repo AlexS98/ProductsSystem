@@ -44,7 +44,11 @@ namespace ProductSystem.Management.Controllers
             var result = _repo.Save(batchDb);
 
             var newTransfer = _repo.DataSet.Include(w => w.ToWarehouse).Include(p => p.ToSellPoint).FirstOrDefault(x => x.Id == Guid.Parse(result.Message));
-            _message.Enqueue(JsonConvert.SerializeObject(newTransfer));
+            _message.Enqueue(JsonConvert.SerializeObject(newTransfer, Formatting.Indented,
+                new JsonSerializerSettings
+                {
+                    ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+                }));
 
             return Ok(newTransfer);
         }

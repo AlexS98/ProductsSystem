@@ -49,7 +49,11 @@ namespace ProductSystem.Management.Controllers
             };
             var result = _repo.Save(batchDb);
             var newBatch = _repo.DataSet.Include(w => w.Warehouse).Include(p => p.Product).FirstOrDefault(x => x.Id == Guid.Parse(result.Message));
-            _message.Enqueue(JsonConvert.SerializeObject(newBatch));
+            _message.Enqueue(JsonConvert.SerializeObject(newBatch, Formatting.Indented,
+                new JsonSerializerSettings
+                {
+                    ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+                }));
 
             return Ok(newBatch);
         }
